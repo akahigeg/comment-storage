@@ -1,0 +1,96 @@
+---
+- name: install packages build-essential
+  apt: name=build-essential update_cache=yes
+
+- name: install packages git
+  apt: name=git update_cache=yes
+
+- name: install packages git-core
+  apt: name=git-core update_cache=yes
+
+- name: install packages libssl-dev
+  apt: name=libssl-dev update_cache=yes
+
+- name: install packages libqt4-dev
+  apt: name=libqt4-dev update_cache=yes
+
+- name: install packages libc6-dev
+  apt: name=libc6-dev update_cache=yes
+
+- name: install packages automake
+  apt: name=automake update_cache=yes
+
+- name: install packages libtool
+  apt: name=libtool update_cache=yes
+
+- name: install packages libffi-dev
+  apt: name=libffi-dev update_cache=yes
+
+- name: install packages libyaml-dev
+  apt: name=libyaml-dev update_cache=yes
+
+- name: install packages zlib1g
+  apt: name=zlib1g update_cache=yes
+
+- name: install packages zlib1g-dev
+  apt: name=zlib1g-dev update_cache=yes
+
+- name: install packages openssl
+  apt: name=openssl update_cache=yes
+
+- name: install packages libssl-dev
+  apt: name=libssl-dev update_cache=yes
+
+- name: install packages libreadline-dev
+  apt: name=libreadline-dev update_cache=yes
+
+- name: install packages libxml2-dev
+  apt: name=libxml2-dev update_cache=yes
+
+- name: install packages libxslt1-dev
+  apt: name=libxslt1-dev update_cache=yes
+
+- name: install packages libncurses5-dev
+  apt: name=libncurses5-dev update_cache=yes
+
+- name: install packages pkg-config
+  apt: name=pkg-config update_cache=yes
+
+- name: install packages chrpath
+  apt: name=chrpath update_cache=yes
+
+- name: install packages libfontconfig1-dev
+  apt: name=libfontconfig1-dev update_cache=yes
+
+- name: install packages libxft-dev
+  apt: name=libxft-dev update_cache=yes
+
+- name: install packages libsqlite3-dev
+  apt: name=libsqlite3-dev update_cache=yes
+
+- name: install rbenv
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest={{ vagrant_home }}/.rbenv
+       version=master
+
+- name: add rbenv path to bash_profile
+  copy: src=rbenv.sh dest=/etc/profile.d/rbenv.sh
+  # copy: content="export PATH=\"/home/vagrant/.rbenv/bin:$PATH\"\neval \"$(rbenv init -)\"" dest=/etc/profile.d/rbenv.sh
+
+- name: install ruby_build
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest={{ vagrant_home }}/.rbenv/plugins/ruby-build
+       version=master
+
+- name: install ruby 2.2.0
+  shell: "export RBENV_ROOT={{ vagrant_home }}/.rbenv; export PATH=$RBENV_ROOT/bin:$PATH; echo N | rbenv install 2.2.0; rbenv global 2.2.0"
+  args:
+    creates: "{{ vagrant_home }}/.rbenv/versions/2.2.0/"
+
+- name: install bundler
+  shell: "{{ vagrant_home }}/.rbenv/shims/gem install bundler"
+  args:
+    creates: "{{ vagrant_home }}/.rbenv/shims/bundle"
+
+- name: change ~/.rbenv owner to vagrant
+  file: path={{ vagrant_home }}/.rbenv state=directory owner=vagrant group=vagrant recurse=yes
