@@ -5,12 +5,15 @@
 - name: Add APT repository
   apt_repository: repo="deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" update_cache=yes
 
-- name: create init script to avoid package install error
-  copy: src=init.d_mongod dest=/etc/init.d/mongod owner=root group=root mode=0755
-  notify: mongodb restart
+# - name: touch init script to avoid package install error
+#   file: path=/etc/init.d/mongod state=touch owner=root group=root mode=0755
 
 - name: install mongodb
   apt: name=mongodb-org update_cache=yes
+
+- name: create init script to avoid package install error
+  copy: src=init.d_mongod dest=/etc/init.d/mongod owner=root group=root mode=0755
+  notify: mongodb restart
 
 - name: Ensure mongodb is started
   service: name=mongod state=started enabled=yes
