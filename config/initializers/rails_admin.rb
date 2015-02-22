@@ -20,6 +20,7 @@ RailsAdmin.config do |config|
       field :created_at
       field :name
       field :content
+      field :accepted
     end
   end
 
