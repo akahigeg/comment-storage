@@ -3,4 +3,5 @@ class Comment
   include Mongoid::Timestamps
   field :name, type: String
   field :content, type: String
+  field :accepted, type: Boolean, default: true
 end
