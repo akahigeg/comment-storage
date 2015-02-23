@@ -18,7 +18,8 @@ RailsAdmin.config do |config|
   config.model 'Comment' do
     list do
       field :created_at
-      field :name
+      field :location
+      field :username
       field :content
       field :accepted
     end
