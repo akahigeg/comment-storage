@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
       username: comment_params[:username],
       content:  comment_params[:content],
       location: comment_params[:location],
-      accepted: Setting.first.default_accepted
+      accepted: Setting::default_accepted
     }
     begin
       new_comment = Comment.create(params)
@@ -24,4 +24,6 @@ class CommentsController < ApplicationController
   def comment_params
     params.permit(:username, :content, :location)
   end
+
+  # TODO: client_keyを検証するフィルター
 end
