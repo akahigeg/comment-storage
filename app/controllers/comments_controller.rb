@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   skip_before_filter :verify_authenticity_token
+  before_action :verify_client_key
 
   def index
     render :json => Comment.where(location: params[:location]).all
@@ -25,5 +26,7 @@ class CommentsController < ApplicationController
     params.permit(:username, :content, :location)
   end
 
-  # TODO: client_keyを検証するフィルター
+  def verify_client_key
+    render text: "" unless Setting::client_key == params[:client_key]
+  end
 end
