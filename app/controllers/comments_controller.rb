@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :verify_client_key
 
   def index
-    render :json => Comment.where(location: params[:location]).all
+    render :json => Comment.where(location: params[:location], accepted: true).all
   end
 
   def create
@@ -27,6 +27,6 @@ class CommentsController < ApplicationController
   end
 
   def verify_client_key
-    render text: "" unless Setting::client_key == params[:client_key]
+    render(text: "404 Not Found", status: 404) unless Setting::client_key == params[:client_key]
   end
 end
