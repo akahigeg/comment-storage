@@ -7,23 +7,29 @@ class CommentsController < ApplicationController
   end
 
   def create
-    params = {
-      username: comment_params[:username],
-      content:  comment_params[:content],
-      location: comment_params[:location],
-      accepted: Setting::default_accepted
-    }
+    comment = comment_params.merge({
+      accepted: Setting::default_accepted,
+      remote_ip: request.env["HTTP_X_FORWARDED_FOR"] || request.remote_ip
+    })
     begin
-      new_comment = Comment.create(params)
+      new_comment = Comment.create(comment)
+      if new_comment.errors.blank?
+        if Setting::default_accepted
+          render :json => new_comment
+        else
+          render :json => {username: 'admin', content: 'This comment is waiting to be accepted.'}
+        end
+      else
+        render :json => {username: 'Error', content: new_comment.errors.full_messages}
+      end
     rescue
-      new_comment = nil
+      render :json => {username: 'Error', content: 'Comment failed'}
     end
-    render :json => new_comment
   end
 
   private
   def comment_params
-    params.permit(:username, :content, :location)
+    params.require(:comment).permit(:username, :content, :location, :mail, :link)
   end
 
   def verify_client_key
