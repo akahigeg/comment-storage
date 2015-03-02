@@ -21,10 +21,11 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-# ActiveAdmine with mongoid
+# ActiveAdmine with Mongoid
 gem 'mongoid'
 gem 'rails_admin'
 
+# CORS
 gem 'rack-cors', :require => 'rack/cors'
 
 # Use ActiveModel has_secure_password
@@ -32,12 +33,16 @@ gem 'rack-cors', :require => 'rack/cors'
 
 # Use Unicorn as the app server
 gem 'unicorn'
-gem 'rack-timeout'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# for Heroku
 gem 'rails_12factor', group: :production
+gem 'rack-timeout'
+
+# for Maingun
+gem 'rest-client'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

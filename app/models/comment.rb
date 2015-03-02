@@ -9,6 +9,7 @@ class Comment
   field :remote_ip, type: String
   field :accepted, type: Boolean, default: true
 
+  validates :location, presence: true
   validates :username, presence: true
   validates :content, presence: true
 end
