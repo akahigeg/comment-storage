@@ -2,6 +2,7 @@
   "name": "Comment Storage",
   "repository": "https://github.com/akahigeg/comment-storage",
   "addons": [
-    "mongolab:sandbox"
+    "mongolab:sandbox",
+    "mailgun:starter"
   ]
 }

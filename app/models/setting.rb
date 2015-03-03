@@ -2,6 +2,10 @@ class Setting
   include Mongoid::Document
   field :default_accepted, type: Boolean
   field :client_key, type: String
+  field :notification_email, type: String
+
+  validates :default_accepted, presence: true
+  validates :client_key, presence: true
 
   def self.default_accepted
     instance.default_accepted
@@ -9,6 +13,10 @@ class Setting
 
   def self.client_key
     instance.client_key
+  end
+
+  def self.notification_email
+    instance.notification_email
   end
 
   def self.instance
