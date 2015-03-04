@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:username, :content, :location, :mail, :link)
+    params.require(:comment).permit(:username, :content, :location, :mail, :link, :commented_at)
   end
 
   def verify_client_key
