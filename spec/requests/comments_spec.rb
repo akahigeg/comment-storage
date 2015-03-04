@@ -137,6 +137,26 @@ describe "Comments API" do
       end
     end
 
+    context "when commented_at is specified(for import)" do
+      before do
+        @comment_params[:commented_at] = '2015-01-02 12:34:56'
+        post "/comments", {comment: @comment_params, client_key: Setting::client_key}, { "HTTP_ACCEPT" => "application/json" }
+        @result = JSON.parse(response.body)
+      end
+
+      it "returns http status 200" do
+        expect(response.status).to eq 200
+      end
+
+      it "created new comment" do
+        expect(Comment.count).to eq 2
+      end
+
+      it "returns '2015-01-02 12:34:56' for commented_at of new comment" do
+        expect(@result["commented_at"]).to eq '2015-01-02T12:34:56.000+00:00'
+      end
+    end
+
     context "when username is blank" do
       before do
         @comment_params[:username] = ''

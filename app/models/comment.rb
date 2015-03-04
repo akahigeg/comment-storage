@@ -8,8 +8,14 @@ class Comment
   field :link, type: String
   field :remote_ip, type: String
   field :accepted, type: Boolean, default: true
+  field :commented_at, type: DateTime
 
   validates :location, presence: true
   validates :username, presence: true
   validates :content, presence: true
+  validates :commented_at, presence: true
+
+  before_validation do |comment|
+    comment.commented_at = Time.zone.now if comment.commented_at.nil?
+  end
 end
