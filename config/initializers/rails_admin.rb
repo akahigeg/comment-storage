@@ -15,7 +15,7 @@ RailsAdmin.config do |config|
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
   config.authenticate_with do
-    authenticate_or_request_with_http_basic("#{ENV['BASIC_AUTH_USERNAME']}:#{ENV['BASIC_AUTH_PASSWORD']}") do |username, password|
+    authenticate_or_request_with_http_basic do |username, password|
       username == ENV['BASIC_AUTH_USERNAME'] && password == ENV['BASIC_AUTH_PASSWORD']
     end
   end
