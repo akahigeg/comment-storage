@@ -56,5 +56,7 @@ group :development, :test do
 
   gem 'rspec'
   gem 'rspec-rails'
+
+  gem 'mechanize'
 end
 

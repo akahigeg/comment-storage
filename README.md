@@ -1,6 +1,10 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 
+### Import comments from wordpress exported xml
+
+rake comment_storage:wpimport COMMENT_STORAGE_HOST=comment-storage.herokuapp.com WPXML_PATH=tmp/wordpress.2015-03-01.xml
+
 ### Basic Auth for /admin
 
 #### heroku
