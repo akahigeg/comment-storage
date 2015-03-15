@@ -7,6 +7,10 @@ class Setting
   validates :default_approved, presence: true
   validates :client_key, presence: true
 
+  before_create do
+    Setting.count == 0
+  end
+
   def self.default_approved
     instance.default_approved
   end
