@@ -1,6 +1,8 @@
 namespace :comment_storage do
   desc "Import comments from wordpress exported xml"
   task :wpimport do
+    WP_COMMENT_NOT_APPROVED = '0'
+
     doc = ::Nokogiri::XML(File.open(ENV["WPXML_PATH"]).read)
 
     comments = []
@@ -8,6 +10,8 @@ namespace :comment_storage do
     doc.search('item').each do |item|
       item_link = item.at('link').text
       item.search('wp|comment').each do |wpcomment|
+        next if wpcomment.at('wp|comment_approved').text == WP_COMMENT_NOT_APPROVED
+        next if wpcomment.at('wp|comment_type').text == 'pingback'
         comment = {
           location: item_link,
           username: wpcomment.at('wp|comment_author').text,
@@ -21,7 +25,6 @@ namespace :comment_storage do
         comments.push(comment)
       end
     end
-    # TODO: exclude non approved comment instead of including accepted flag in params
 
     agent = Mechanize.new
 
@@ -34,6 +37,8 @@ namespace :comment_storage do
       params.merge!({client_key: ENV["CLIENT_KEY"]})
       # TODO: prevent doubled post
       agent.post "https://#{ENV['COMMENT_STORAGE_HOST']}/comments", params, { "HTTP_ACCEPT" => "application/json" }
+      print "."
     end
+    print "Done.\n#{comments.count} comments imported. (only approved comments and no pingback)\n"
   end
 end

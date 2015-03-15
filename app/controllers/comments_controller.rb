@@ -3,21 +3,21 @@ class CommentsController < ApplicationController
   before_action :verify_client_key
 
   def index
-    render :json => Comment.where(location: params[:location], accepted: true).all
+    render :json => Comment.where(location: params[:location], approved: true).all
   end
 
   def create
     comment = comment_params.merge({
-      accepted: Setting::default_accepted,
+      approved: Setting::default_approved,
       remote_ip: request.env["HTTP_X_FORWARDED_FOR"] || request.remote_ip
     })
     begin
       @new_comment = Comment.create(comment)
       if @new_comment.errors.blank?
-        if Setting::default_accepted
+        if Setting::default_approved
           render :json => @new_comment
         else
-          render :json => {username: 'admin', content: 'This comment is waiting to be accepted.'}
+          render :json => {username: 'admin', content: 'This comment is waiting to be approved.'}
         end
         send_email_notification
       else

@@ -7,7 +7,7 @@ class Comment
   field :mail, type: String
   field :link, type: String
   field :remote_ip, type: String
-  field :accepted, type: Boolean, default: true
+  field :approved, type: Boolean, default: true
   field :commented_at, type: DateTime
 
   validates :location, presence: true
