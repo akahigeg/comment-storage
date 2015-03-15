@@ -23,11 +23,11 @@ RailsAdmin.config do |config|
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
   config.model 'Comment' do
     list do
-      field :created_at
+      field :commented_at
       field :location
       field :username
       field :content
-      field :accepted
+      field :approved
     end
   end
 
