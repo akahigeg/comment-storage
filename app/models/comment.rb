@@ -18,4 +18,9 @@ class Comment
   before_validation do |comment|
     comment.commented_at = Time.zone.now if comment.commented_at.nil?
   end
+
+  before_create do |comment|
+    # avoid doubled comment
+    Comment.where(location: comment.location, username: comment.username, content: comment.content).count == 0
+  end
 end
