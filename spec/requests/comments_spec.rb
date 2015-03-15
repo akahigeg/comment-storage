@@ -3,6 +3,8 @@ require 'rails_helper'
 describe "Comments API" do
   describe "GET /comments" do
     before do
+      Setting.delete_all
+
       Comment.delete_all
       Comment.create(location: '/path1', username: 'foo', content: 'funny comment', approved: true)
       Comment.create(location: '/path1', username: 'bar', content: 'much funny comment', approved: true)
