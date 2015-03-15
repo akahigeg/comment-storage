@@ -10,18 +10,30 @@ RSpec.describe Setting, type: :model do
       Setting.delete_all
     end
 
-    it "0" do
+    it "Confirm setting count is 0 before create" do
       expect(Setting.count).to eq 0
     end
 
-    it "1" do
-      Setting.create(default_approved: true, client_key: 'dummy1')
-      expect(Setting.count).to eq 1
+    context "When setting not exist" do
+      it "A new setting is created" do
+        expect { Setting.create(default_approved: true, client_key: 'dummy1') }.to change{ Setting.count }.to(1).from(0)
+      end
     end
 
-    it "not 2" do
-      Setting.create(default_approved: true, client_key: 'dummy2')
-      expect(Setting.count).to eq 1
+    context "When already setting exists" do
+      before do
+        Setting.create(default_approved: true, client_key: 'dummy1')
+      end
+
+      it "A new setting is not created" do
+        expect { Setting.create(default_approved: true, client_key: 'dummy2') }.not_to change{ Setting.count }
+      end
+
+      it "Not overrided" do
+        expect(Setting.first.client_key).to eq 'dummy1'
+
+      end
     end
+
   end
 end
