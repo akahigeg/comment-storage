@@ -39,6 +39,6 @@ namespace :comment_storage do
       agent.post "https://#{ENV['COMMENT_STORAGE_HOST']}/comments", params, { "HTTP_ACCEPT" => "application/json" }
       print "."
     end
-    print "Done.\n#{comments.count} comments imported. (only approved comments and no pingback)\n"
+    print "Done.\ncomments imported. (only approved comments and except pingback)\n"
   end
 end
